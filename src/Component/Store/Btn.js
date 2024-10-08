@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = { elevatorBtnVisible: true };
 
-const initialState = {btnVisible:false}
 const btnSlice = createSlice({
-    name : 'btn',
-    initialState : initialState,
-    reducers:{
-        upDownToggle(state){
-            state.btnVisible=!state.btnVisible;
+    name: 'btn',
+    initialState: initialState,
+    reducers: {
+        upDownToggle(state) {
+            state.elevatorBtnVisible = !state.elevatorBtnVisible; 
         }
     }
-})
+});
 
 export const btnAction = btnSlice.actions;
-export default btnSlice.reducer
+export default btnSlice.reducer;
