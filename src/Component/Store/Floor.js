@@ -6,7 +6,7 @@ const FloorSlice = createSlice({
     name: 'floor',
     initialState: initialState,
     reducers: {
-        elevatorReachTheDestination(state, action) {
+        elevatorReachTheFloor(state, action) {
             switch (action.payload) {
                 case 2:
                     state.floorNo = 2;

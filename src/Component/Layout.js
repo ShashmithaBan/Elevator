@@ -13,27 +13,50 @@ const Layout = () => {
   const isPassengerIn = useSelector(state => state.floor.isPassengerIn);
   const dispatch = useDispatch();
 
-const moveElevatorToPassenger = (targetFloor) =>{
+const moveElevator = (targetFloor) =>{
   let currentFloor = whichFloor;
 
   const interval = setInterval(() => {
     if(currentFloor === targetFloor){
+      clearInterval(interval);
       dispatch(floorAction.isPassengerIn())
-      clearInterval();
+      
     }else if(currentFloor<targetFloor){
       currentFloor++;
-      dispatch(floorAction.elevatorReachTheDestination(currentFloor));
+      dispatch(floorAction.elevatorReachTheFloor(currentFloor));
     }else{
       currentFloor--;
-      dispatch(floorAction.elevatorReachTheDestination(currentFloor))
+      dispatch(floorAction.elevatorReachTheFloor(currentFloor))
     }
     
   }, 1100);
+
+  
   
 }
+const moveElevatorToFirstFloor = (floorNo) =>{
+  let currentFloor = floorNo;
 
-  const floorSelectionHandler = (floorNo) => {
-    moveElevatorToPassenger(floorNo);
+  const interval = setInterval(() => {
+    if(currentFloor === 1){
+      clearInterval(interval);
+    }else{
+      currentFloor--;
+      dispatch(floorAction.elevatorReachTheFloor(currentFloor))
+    }
+  }, 1100);
+}
+  const floorSelectionHandler = (floorNo) =>{
+    moveElevator(floorNo);
+    dispatch(btnAction.upDownToggle());
+    setTimeout(() => {
+      moveElevatorToFirstFloor(floorNo);
+    }, 5000);
+
+  }
+
+  const elevatorSelectionHandler = (floorNo) => {
+    moveElevator(floorNo);
     dispatch(btnAction.upDownToggle());
   }
 
@@ -41,11 +64,11 @@ const moveElevatorToPassenger = (targetFloor) =>{
     <>
       <section className='flex justify-center m-10 space-x-10'>
         <div className="space-y-5 flex-row items-center">
-          {whichFloor === 5 ? (isPassengerIn ? <Green no={5} /> : <Green no={5} />) : <Black no={5} />}
+          {whichFloor === 5 ? (isPassengerIn ? <Green no={5} /> : <Red no={5} />) : <Black no={5} />}
           {whichFloor === 4 ? (isPassengerIn ? <Green no={4} /> : <Red no={4}/>) : <Black no={4} />}
-          {whichFloor === 3 ? <Red no={3} /> : <Black no={3} />}
-          {whichFloor === 2 ? <Red no={2} /> : <Black no={2} />}
-          {whichFloor === 1 ? <Red no={1} /> : <Black no={1} />}
+          {whichFloor === 3 ? (isPassengerIn ? <Green no={3} /> : <Red no={3} />) : <Black no={3} />}
+          {whichFloor === 2 ? (isPassengerIn ? <Green no={2} /> : <Red no={2} />) : <Black no={2} />}
+          {whichFloor === 1 ? (isPassengerIn ? <Green no={1} /> : <Red no={1} />): <Black no={1} />}
         </div>
         <div className='flex items-center'>
           {isBtnVisible ? (
@@ -55,13 +78,13 @@ const moveElevatorToPassenger = (targetFloor) =>{
                   <h3 className='text-center'>Floor {floor}</h3>
                   <div className='space-x-5'>
                     <button 
-                      onClick={() => floorSelectionHandler(floor)}
+                      onClick={() => elevatorSelectionHandler(floor)}
                       className='border-2 border-black hover:border-green-500 hover:bg-green-100 transition-all duration-300 active:bg-green-300'
                     >
                       <HiArrowSmUp className='text-4xl hover:text-green-500 transition-all duration-300' />
                     </button>
                     <button 
-                      onClick={() => floorSelectionHandler(floor)}
+                      onClick={() => elevatorSelectionHandler(floor)}
                       className='border-2 border-black hover:border-green-500 hover:bg-green-100 transition-all duration-300 active:bg-green-300'
                     >
                       <HiArrowSmDown className='text-4xl hover:text-green-500 transition-all duration-300' />
@@ -72,7 +95,7 @@ const moveElevatorToPassenger = (targetFloor) =>{
             </div>
           ) : (
             <div className='border-black border-2 p-5 flex-row space-y-2'>
-              {[1, 2, 3, 4, 5, 6].map(floor => (
+              {[1, 2, 3, 4, 5].map(floor => (
                 <button
                   key={floor}
                   onClick={() => floorSelectionHandler(floor)}
