@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { elevatorBtnVisible: true };
+const initialState = { elevatorBtnVisible: true , elevatorWay : true , error:null };
 
 const btnSlice = createSlice({
     name: 'btn',
@@ -8,6 +8,15 @@ const btnSlice = createSlice({
     reducers: {
         upDownToggle(state) {
             state.elevatorBtnVisible = !state.elevatorBtnVisible; 
+        },
+        elevatorWayChangeUp(state){
+            state.elevatorWay = true;
+        },
+        elevatorWayChangeDown(state){
+            state.elevatorWay = false;
+        },
+        elevatorError(state){
+            state.error = 'You cant reach the following floor';
         }
     }
 });

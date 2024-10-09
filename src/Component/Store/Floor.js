@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { floorNo: 1 , isPassengerIn:false};
+const initialState = { floorNo: 1 , isPassengerIn: false};
 
 const FloorSlice = createSlice({
     name: 'floor',
@@ -8,6 +8,9 @@ const FloorSlice = createSlice({
     reducers: {
         elevatorReachTheFloor(state, action) {
             switch (action.payload) {
+                case 1:
+                    state.floorNo = 1;
+                    break;
                 case 2:
                     state.floorNo = 2;
                     break;
@@ -17,11 +20,8 @@ const FloorSlice = createSlice({
                 case 4:
                     state.floorNo = 4;
                     break;
-                case 5:
-                    state.floorNo = 5;
-                    break;
                 default:
-                    state.floorNo = 1;
+                    state.floorNo = 0;
                     break;
             }
         },
