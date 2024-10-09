@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { floorNo: 1 , isPassengerIn: false};
+const initialState = { floorNo:0 , isPassengerIn: false , selectedFloor : []};
 
 const FloorSlice = createSlice({
     name: 'floor',
@@ -27,7 +27,14 @@ const FloorSlice = createSlice({
         },
         isPassengerIn(state){
           state.isPassengerIn = !state.isPassengerIn;
-        }
+        },
+        getingSelectedFloor(state, action) {
+            
+            console.log("Before update:", state.selectedFloor);
+            state.selectedFloor = [...state.selectedFloor, action.payload];
+            console.log("After update:", state.selectedFloor);
+        },
+        
     }
 });
 
