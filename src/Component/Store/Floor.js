@@ -1,38 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { floorNo:0 , isPassengerIn: false , selectedFloor : []};
+const initialState = { floorNo:0 , isPassengerIn: false , selectedFloor : [] , requestedFloor:[]};
 
 const FloorSlice = createSlice({
     name: 'floor',
     initialState: initialState,
     reducers: {
+        updateRequestedFloor(state,action){
+            state.requestedFloor = [...state.requestedFloor,action.payload];
+        },
+        retrieveRequestedFloor(state){
+            return state.requestedFloor;
+        },
+        isRequestedFloorsEmpty(state){
+          if(state.requestedFloor.length === 0){
+              return true;
+          }
+        },
+        removeReachedFloorFromRequested(state){
+            state.requestedFloor.shift();
+        },
         elevatorReachTheFloor(state, action) {
-            switch (action.payload) {
-                case 1:
-                    state.floorNo = 1;
-                    break;
-                case 2:
-                    state.floorNo = 2;
-                    break;
-                case 3:
-                    state.floorNo = 3;
-                    break;
-                case 4:
-                    state.floorNo = 4;
-                    break;
-                default:
-                    state.floorNo = 0;
-                    break;
-            }
+            state.floorNo = action.payload;
+            
         },
         isPassengerIn(state){
           state.isPassengerIn = !state.isPassengerIn;
         },
-        getingSelectedFloor(state, action) {
-            
+        getingSelectedFloor(state, action) { 
             console.log("Before update:", state.selectedFloor);
             state.selectedFloor = [...state.selectedFloor, action.payload];
             console.log("After update:", state.selectedFloor);
+        },
+        retriveNextFloor(state){
+            return state.selectedFloor;
+        },
+        removeReachedFloorFromSelected(state){
+            state.selectedFloor.shift();
         },
         
     }

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { elevatorBtnVisible: true , elevatorWay : true , error:null };
+const initialState = { elevatorBtnVisible: false , elevatorWay : true , error:null };
 
 const btnSlice = createSlice({
     name: 'btn',
@@ -17,7 +17,7 @@ const btnSlice = createSlice({
         },
         elevatorError(state){
             state.error = 'You cant reach the following floor';
-        }
+        },
     }
 });
 
